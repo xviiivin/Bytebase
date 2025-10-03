@@ -22,6 +22,29 @@ It supports many databases like **Postgres, MySQL, MariaDB, TiDB, MongoDB, Snowf
   </a>
 </h1>
 
+===
+
+<h1 align="center">
+  <a href="https://www.bytebase.com?source=github" target="_blank">
+    <img alt="Bytebase" src="https://raw.githubusercontent.com/bytebase/bytebase/main/docs/assets/fish.webp" />
+  </a>
+</h1>
+
+The image shows a “big fish eating small fish” meme with different database tools:
+
+- The smallest creatures (🐙 + tiny fish): **raw SQL CLI** → developers manually writing SQL in the terminal.
+- Small fish: **Navicat, DBeaver** → GUI database clients.
+- Medium fish: **Liquibase, Flyway** → schema migration and automation tools.
+- Larger fish: **DataGrip** (IDE for database management).
+- Even larger fish: **Redgate** (commercial DB DevOps tool).
+- The biggest fish: **Bytebase**, about to eat all the others.
+
+Bytebase positions itself as the next evolution of database tools:
+- It covers what GUI tools do (easy access to DBs).
+- It covers what migration tools do (version-controlled schema changes).
+- It adds what IDEs do (developer-friendly SQL editing).
+- And on top of that, it introduces **workflow, approval, governance, and security** that none of the others combine in one platform.
+
 ## Why use Bytebase?
 
 Normally, DB migrations can get messy:
@@ -34,7 +57,25 @@ With Bytebase, you get:
 ✔️ Version-controlled migrations (every change is tracked).<br>
 ✔️ Approval workflow (like PRs in GitHub).<br>
 ✔️ Safe deployment (analyze SQL before running).<br>
-✔️ Multi-environment sync (keep dev/stg/prod aligned).
+✔️ Multi-environment sync (keep dev/stg/prod aligned). <br>
+
+
+| Feature / Tool           | Bytebase                    | Liquibase | Flyway   | Atlas   | Dbmate/Sqitch | Redgate SCA              |
+| ------------------------ | ---------------------------- | --------- | -------- | ------- | ------------- | ------------------------ |
+| **UI / Web Dashboard**   |  Yes✔️                        | No✖️      | No✖️    | Partial  | No✖️          | Yes✔️  (SQL Server focus) |
+| **Workflow Approval**    |  Yes✔️                        | No✖️      | No✖️     | No✖️     |No✖️           | Yes✔️                    |
+| **Schema Migration**     |  Yes✔️                        | Yes✔️     | Yes✔️   | Yes✔️     | Yes✔️         | Yes✔️                    |
+| **Version Control**      |  Built-in✔️                   | Manual✔️  | Manual✔️ | Yes✔️    | Partial      | Yes✔️                     |
+| **SQL Review / Linting** |  Yes✔️                        | No✖️      | No✖️     | Partial  | No✖️          | Partial                  |
+| **Multi-Env Pipeline**   |  Yes✔️                        | Partial   | No✖️     | No✖️     | No✖️          | Partial                  |
+| **Audit & Logs**         |  Yes✔️                        | Partial   | No✖️     | No✖️     | No✖️          | Yes✔️                    |
+| **RBAC / Security**      |  Yes✔️                        | No✖️      | No✖️     | No✖️     | No✖️          | Yes✔️                    |
+| **Databases Supported**  | Many (Postgres, MySQL, etc.) | Many      | Many     | Few     | Few           | SQL Server only          |
+
+- For individual devs / small projects → Flyway or Dbmate is enough.
+- For schema migration automation with CI/CD → Liquibase / Atlas works.
+- For enterprises needing governance, approvals, audit, multi-env sync → Bytebase is the all-in-one solution.
+
 
 ## With Bytebase:
 
@@ -63,3 +104,4 @@ Example SQL migration file:<br>
 5. **Audit Trail**
 
 - Anyone can see: “On Oct 2, user Alice added ```delivery_date``` to ```orders``` in production.”
+
