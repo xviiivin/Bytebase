@@ -45,6 +45,155 @@ Bytebase positions itself as the next evolution of database tools:
 - It adds what IDEs do (developer-friendly SQL editing).
 - And on top of that, it introduces **workflow, approval, governance, and security** that none of the others combine in one platform.
 
+## Database Change Management Approval Flow (Risk-based Workflow)
+
+<h1 align="center">
+  <img width="1764" height="1000" alt="image (3)" src="https://github.com/user-attachments/assets/d84ee3b5-6819-47b0-acdf-c72d49b27a78" />
+</h1>
+
+
+### Risk Level in Bytebase
+Bytebase does not allow every SQL script to be deployed directly.
+Instead, it **evaluates the risk level** first and enforces who needs to approve.
+This prevents **production incidents** such as dropping a table by mistake or updating too many
+rows unintentionally.
+
+1) **Low Risk** → Auto Approve<br>
+<ul>
+  <li>Examples:</li>
+    <ul>
+      <li>ALTER TABLE in a test environment</li>
+    </ul>
+  <li>Reason:</li>
+      <ul>
+      <li>Changes in a test environment don’t affect real users. If it fails, production is safe.</li>
+    </ul>
+  <li>Result 
+    <ul>
+      <li>Bytebase auto-approves, no human involvement needed.</li>
+    </ul>
+  </li>
+</ul>
+
+---
+
+2) **Moderate Risk** → Requires Project Owner Approval<br>
+<ul>
+  <li>Examples:</li>
+    <ul>
+      <li>CREATE TABLE in a production environment</li>
+    </ul>
+  <li>Reason:</li>
+      <ul>
+      <li>Creating a new table doesn’t impact existing data directly but still modifies the
+schema.</li>
+    </ul>
+  <li>Result 
+    <ul>
+      <li>Requires approval from the Project Owner (the team lead or owner of the service).</li>
+    </ul>
+  </li>
+</ul>
+
+ ---
+
+3) **High Risk** → Requires Project Owner + DBA Approval<br>
+<ul>
+  <li>Examples:</li>
+    <ul>
+      <li>ALTER TABLE in a production environment</li>
+      <li>UPDATE or DELETE affecting >100 rows in production</li>
+    </ul>
+  <li>Reason:</li>
+      <ul>
+      <li>Altering schema in production can affect queries, indexes, or dependent systems.</li>
+      <li>Mass updates/deletes have a high chance of mistakes (e.g., deleting customer data
+without a WHERE clause).</li>
+    </ul>
+  <li>Result Needs two levels of approval:
+    <ul>
+      <li>Project Owner → validates the business necessity</li>
+      <li>DBA → validates technical safety (performance, locks, constraints, index impact)</li>
+    </ul>
+  </li>
+</ul>
+
+---
+
+**Why is this needed?**
+- **Reduce Human Error**: prevents developers from running unsafe SQL in production
+- **Separation of Duty**: Dev can write SQL, but can’t deploy it directly → requires Owner/DBA
+approval
+- **Audit & Compliance**: Every change is logged (who approved, when, and what was
+changed)
+- **Balance Speed & Safety**: Low-risk changes are auto-approved; high-risk changes require
+multi-level review
+
+---
+
+### When a developer creates a PR (Pull Request):
+
+<h1 align="center">
+  <img width="1764" height="1000" src="https://github.com/user-attachments/assets/3ae9bd70-ff46-4845-bff2-1a19e794f2db" />
+</h1>
+  
+
+1). Dev creates PR <br>
+<ul>
+  <li>PR contains a SQL migration script in the codebase</li>
+  <li>Bytebase automatically runs:</li>
+      <ul>
+      <li>SQL Review (lint, best practice check)</li>
+      <li>Migration Check (schema policy, dry-run, row impact estimation, etc.)</li>
+    </ul>
+</ul>
+
+---
+
+2). Team Lead reviews and approves PR
+- If **SQL Review + Migration Check** pass → OK
+- If not → Developer must fix the SQL before merging
+
+---
+
+3). Bytebase auto-creates an Issue
+- The Issue tracks the migration process for that SQL script
+- Contains metadata: script, environment, risk level, approvers, and check results
+
+---
+
+4). Approval (depending on Risk Level)
+-  **Low Risk** → Auto-approved
+- **Moderate** → Requires Project Owner
+- **High** → Requires Project Owner + DBA
+- Approvers review via Bytebase UI and can click **Approve or Roll out**
+
+---
+
+5). Deploy Migration
+-  Bytebase executes the migration script on the actual database
+- Logs execution results in real-time
+- Updates the Issue status → **Done when successful**
+  
+---
+
+6). Re-run Migration Check (if needed)
+-  If errors occur → Dev updates the script → rerun the check and re-deploy
+
+---
+
+7). Merge PR
+-  Once both **SQL Review** and **Migration** pass, Dev can merge the PR successfully
+
+---
+
+Why this workflow?
+- **Separation of Duty**: Devs write SQL but can’t deploy alone → must go through Owner/DBA
+- **Risk-based Approval**: Automates safe changes, while critical changes get multi-step
+review
+- **Auditability**: Every migration tracked in Bytebase Issue (who, when, what)
+- **Automation**: Integrated with GitHub/GitLab → enables CI/CD for databases
+
 ## Why use Bytebase?
 
 Normally, DB migrations can get messy:
