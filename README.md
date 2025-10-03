@@ -22,7 +22,7 @@ It supports many databases like **Postgres, MySQL, MariaDB, TiDB, MongoDB, Snowf
   </a>
 </h1>
 
-===
+---
 
 <h1 align="center">
   <a href="https://www.bytebase.com?source=github" target="_blank">
