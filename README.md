@@ -138,7 +138,7 @@ multi-level review
 </h1>
   
 
-1). Dev creates PR <br>
+1) **Dev creates PR** <br>
 <ul>
   <li>PR contains a SQL migration script in the codebase</li>
   <li>Bytebase automatically runs:</li>
@@ -150,19 +150,19 @@ multi-level review
 
 ---
 
-2). Team Lead reviews and approves PR
+2) **Team Lead reviews and approves PR**
 - If **SQL Review + Migration Check** pass → OK
 - If not → Developer must fix the SQL before merging
 
 ---
 
-3). Bytebase auto-creates an Issue
+3) **Bytebase auto-creates an Issue**
 - The Issue tracks the migration process for that SQL script
 - Contains metadata: script, environment, risk level, approvers, and check results
 
 ---
 
-4). Approval (depending on Risk Level)
+4) **Approval (depending on Risk Level)**
 -  **Low Risk** → Auto-approved
 - **Moderate** → Requires Project Owner
 - **High** → Requires Project Owner + DBA
@@ -170,19 +170,19 @@ multi-level review
 
 ---
 
-5). Deploy Migration
+5) **Deploy Migration**
 -  Bytebase executes the migration script on the actual database
 - Logs execution results in real-time
 - Updates the Issue status → **Done when successful**
   
 ---
 
-6). Re-run Migration Check (if needed)
+6) **Re-run Migration Check (if needed)**
 -  If errors occur → Dev updates the script → rerun the check and re-deploy
 
 ---
 
-7). Merge PR
+7) **Merge PR**
 -  Once both **SQL Review** and **Migration** pass, Dev can merge the PR successfully
 
 ---
