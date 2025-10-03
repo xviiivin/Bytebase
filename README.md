@@ -75,7 +75,6 @@ rows unintentionally.
   </li>
 </ul>
 
----
 
 2) **Moderate Risk** → Requires Project Owner Approval<br>
 <ul>
@@ -95,7 +94,6 @@ schema.</li>
   </li>
 </ul>
 
- ---
 
 3) **High Risk** → Requires Project Owner + DBA Approval<br>
 <ul>
@@ -118,7 +116,6 @@ without a WHERE clause).</li>
   </li>
 </ul>
 
----
 
 **Why is this needed?**
 - **Reduce Human Error**: prevents developers from running unsafe SQL in production
@@ -129,7 +126,6 @@ changed)
 - **Balance Speed & Safety**: Low-risk changes are auto-approved; high-risk changes require
 multi-level review
 
----
 
 ### When a developer creates a PR (Pull Request):
 
@@ -148,19 +144,16 @@ multi-level review
     </ul>
 </ul>
 
----
 
 2) **Team Lead reviews and approves PR**
 - If **SQL Review + Migration Check** pass → OK
 - If not → Developer must fix the SQL before merging
 
----
 
 3) **Bytebase auto-creates an Issue**
 - The Issue tracks the migration process for that SQL script
 - Contains metadata: script, environment, risk level, approvers, and check results
 
----
 
 4) **Approval (depending on Risk Level)**
 -  **Low Risk** → Auto-approved
@@ -168,24 +161,20 @@ multi-level review
 - **High** → Requires Project Owner + DBA
 - Approvers review via Bytebase UI and can click **Approve or Roll out**
 
----
 
 5) **Deploy Migration**
 -  Bytebase executes the migration script on the actual database
 - Logs execution results in real-time
 - Updates the Issue status → **Done when successful**
   
----
 
 6) **Re-run Migration Check (if needed)**
 -  If errors occur → Dev updates the script → rerun the check and re-deploy
 
----
 
 7) **Merge PR**
 -  Once both **SQL Review** and **Migration** pass, Dev can merge the PR successfully
 
----
 
 Why this workflow?
 - **Separation of Duty**: Devs write SQL but can’t deploy alone → must go through Owner/DBA
