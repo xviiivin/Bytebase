@@ -1,4 +1,4 @@
-# Bytebase
+# 🌱 Bytebase
 
 <h1 align="center">
   <a href="https://www.bytebase.com?source=github" target="_blank">
@@ -6,7 +6,7 @@
   </a>
 </h1>
 
-## What's Bytebase
+## 📚 What's Bytebase
 
 Think of **.Bytebase**. as a **.GitHub + CI/CD**., but for **databases**.
 It’s an open-source tool that helps you:
@@ -45,14 +45,73 @@ Bytebase positions itself as the next evolution of database tools:
 - It adds what IDEs do (developer-friendly SQL editing).
 - And on top of that, it introduces **workflow, approval, governance, and security** that none of the others combine in one platform.
 
-## Database Change Management Approval Flow (Risk-based Workflow)
+## ⚡ Usecase
+1) **Change History: Identify Who Changed What in Production** <br>
+Scenario:
+A production database issue occurs after a new schema deployment.
+The team needs to know who made the change and when.
+
+How ByteBase Helps:
+
+- Open **Change History** to see who executed the latest migration.
+- Review detailed logs containing the SQL executed, timestamp, and results (success/failure).
+- Use this information to perform **Root Cause Analysis (RCA)** immediately.
+
+Benefit:
+Reduces debugging time and ensures transparent post-incident investigation. 
+
+2) **SQL Review: Detect Non-Compliant SQL Before Production** <br>
+Scenario:
+A developer writes a migration script containing a ```DROP COLUMN``` command during staging.
+
+How ByteBase Helps:
+
+- The SQL Review engine flags this as a policy violation for production.
+- The system automatically blocks the deployment and notifies via Slack.
+- The developer corrects the issue before it reaches production.
+
+Benefit:
+Prevents data loss automatically and enforces organization-wide SQL standards.
+
+3) **Rollback Plan: Revert Instantly When Deployment Fails** <br>
+
+Scenario:
+A team deploys a migration, and the application crashes because a new column lacks a default value.
+
+How ByteBase Helps:
+
+- Open the latest migration entry in the **ByteBase UI**.
+- Click ***“Rollback”***, and the system executes the attached rollback script.
+- The database safely returns to its previous state within seconds.
+
+Benefit:
+Minimizes downtime and gives teams confidence in rapid, safe deployments.
+
+4) **Approval Flow: Enforce Multi-Stage Deployment Controls** <br>
+
+Scenario:
+A development team wants to deploy a migration to production, but DBA approval is required first.
+
+How ByteBase Helps:
+
+- Define an **Approval Flow** such as: Dev → QA → DBA (Production Approver).
+- Every approval action is recorded with timestamps for full traceability.
+- ByteBase sends **email/Slack/Discord notifications** at each stage (request, approval, deployment).
+
+Benefit:
+Ensures controlled, compliant deployment processes with a complete audit trail.
+
+
+--- 
+
+## 💫 Database Change Management Approval Flow (Risk-based Workflow)
 
 <h1 align="center">
   <img width="1764" height="1000" alt="image (3)" src="https://github.com/user-attachments/assets/d84ee3b5-6819-47b0-acdf-c72d49b27a78" />
 </h1>
 
 
-### Risk Level in Bytebase
+### 📍 Risk Level in Bytebase
 Bytebase does not allow every SQL script to be deployed directly.
 Instead, it **evaluates the risk level** first and enforces who needs to approve.
 This prevents **production incidents** such as dropping a table by mistake or updating too many
@@ -127,7 +186,7 @@ changed)
 multi-level review
 
 
-### When a developer creates a PR (Pull Request):
+### ✏️ When a developer creates a PR (Pull Request):
 
 <h1 align="center">
   <img width="1764" height="1000" src="https://github.com/user-attachments/assets/3ae9bd70-ff46-4845-bff2-1a19e794f2db" />
@@ -183,7 +242,7 @@ review
 - **Auditability**: Every migration tracked in Bytebase Issue (who, when, what)
 - **Automation**: Integrated with GitHub/GitLab → enables CI/CD for databases
 
-## Why use Bytebase?
+## 🏀 Why use Bytebase?
 
 Normally, DB migrations can get messy:
 - Devs apply SQL directly in staging/prod.
@@ -213,33 +272,3 @@ With Bytebase, you get:
 - For individual devs / small projects → Flyway or Dbmate is enough.
 - For schema migration automation with CI/CD → Liquibase / Atlas works.
 - For enterprises needing governance, approvals, audit, multi-env sync → Bytebase is the all-in-one solution.
-
-
-## With Bytebase:
-
-1. **Create a Migration Script**
-
-Example SQL migration file:<br>
-```bash
-  ALTER TABLE orders ADD COLUMN delivery_date DATE;
-```
-
-2. **Push to Git** (if GitOps mode is enabled)
-
-- Commit the SQL file into your repo (e.g., /migrations/001_add_delivery_date.sql).
-- Bytebase detects it and shows it in its UI.
-
-3. **Review in Bytebase UI**
-
-- Another teammate reviews it (like a Pull Request).
-- Bytebase warns if the SQL has risky patterns (like dropping a column with data).
-
-4. **Apply Migration**
-
-- Approve → Bytebase applies it to **Dev** first.
-- Later, promote the same migration to **Staging**, then **Production**.
-
-5. **Audit Trail**
-
-- Anyone can see: “On Oct 2, user Alice added ```delivery_date``` to ```orders``` in production.”
-
