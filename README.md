@@ -186,54 +186,29 @@ changed)
 multi-level review
 
 
-### ✏️ When a developer creates a PR (Pull Request):
+### ✏️ A Complete Database CI/CD Workflow:
 
 <h1 align="center">
-  <img width="1764" height="1000" src="https://github.com/user-attachments/assets/3ae9bd70-ff46-4845-bff2-1a19e794f2db" />
+  <img width="1764" height="1000" src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*qfeQO-7MQzTum1mQ4fA1ow.png" />
 </h1>
   
 
-1) **Dev creates PR** <br>
-<ul>
-  <li>PR contains a SQL migration script in the codebase</li>
-  <li>Bytebase automatically runs:</li>
-      <ul>
-      <li>SQL Review (lint, best practice check)</li>
-      <li>Migration Check (schema policy, dry-run, row impact estimation, etc.)</li>
-    </ul>
-</ul>
+1) The developer **creates a Merge Request / Pull Request** containing the SQL migration script or SQL Query. <br>
 
+2) SQL Review Action is **automatically triggered to review SQL** and offers suggestions to assist the code review.
 
-2) **Team Lead reviews and approves PR**
-- If **SQL Review + Migration Check** pass → OK
-- If not → Developer must fix the SQL before merging
+3) After several possible iterations, the team leader or another peer on the dev teams approves the change and **merges the SQL script into a branch**.
 
+4) The **merge** event **automatically triggers the release pipeline** in Bytebase and creates a release ticket capturing the intended change.
 
-3) **Bytebase auto-creates an Issue**
-- The Issue tracks the migration process for that SQL script
-- Contains metadata: script, environment, risk level, approvers, and check results
-
-
-4) **Approval (depending on Risk Level)**
--  **Low Risk** → Auto-approved
-- **Moderate** → Requires Project Owner
-- **High** → Requires Project Owner + DBA
-- Approvers review via Bytebase UI and can click **Approve or Roll out**
-
-
-5) **Deploy Migration**
--  Bytebase executes the migration script on the actual database
-- Logs execution results in real-time
-- Updates the Issue status → **Done when successful**
+5) (Optional) A DBA or a designated reviewer may **review the change scripts via Bytebase’s built-in UI**.
   
-
-6) **Re-run Migration Check (if needed)**
--  If errors occur → Dev updates the script → rerun the check and re-deploy
+6) Approved scripts are **executed** gradually according to the configured rollout stages.
 
 
-7) **Merge PR**
--  Once both **SQL Review** and **Migration** pass, Dev can merge the PR successfully
+7) The latest database schema is automatically written back to the code repository after applying changes. With this, the Dev team always has a copy of the latest schema. Furthermore, they can configure downstream pipelines based on the change of that latest schema.
 
+8) Confirm the migration and proceed to the corresponding application **rollout**.
 
 Why this workflow?
 - **Separation of Duty**: Devs write SQL but can’t deploy alone → must go through Owner/DBA
